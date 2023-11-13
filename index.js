@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 
+const badwordsObject = require('badwords/object');
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -49,10 +51,29 @@ client.on('interactionCreate', async (interaction) => {
 
 client.on("messageCreate", async (message) => {
     if (!message.author.bot) {
+        let exist = false
+        for (let i = 0; i < Object.keys(badwordsObject).length; i ++){
+            const word = Object.keys(badwordsObject)[i]
+            if (message.content.toLowerCase().includes(word)){
+                exist = true
+            }
+        }
         if (message.content.toLowerCase().includes('floppa')) {
             await message.reply('im better')
             await message.reply('im smarter')
             await message.reply('im stronger')
+        }
+        if (exist === true){
+            if (message.content.toLowerCase().includes("obamna")){
+                for (let b = 0; b < 5; b++){
+                    await message.reply('du dummer nuttensohn')
+                }
+            }
+            if (message.content.toLowerCase().includes("obama")){
+                for (let b = 0; b < 5; b++){
+                    await message.reply('du dummer nuttensohn')
+                }
+            }
         }
     }
 });
