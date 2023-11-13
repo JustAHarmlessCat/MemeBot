@@ -54,9 +54,6 @@ client.on("messageCreate", async (message) => {
             await message.reply('im smarter')
             await message.reply('im stronger')
         }
-        if (message.content.toLowerCase() === 'hello') {
-            await message.channel.send('hello');
-        }
     }
 });
 client.login(process.env.DISCORD_TOKEN);
