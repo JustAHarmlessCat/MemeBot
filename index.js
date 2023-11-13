@@ -49,6 +49,11 @@ client.on('interactionCreate', async (interaction) => {
 
 client.on("messageCreate", async (message) => {
     if (!message.author.bot) {
+        if (message.content.toLowerCase() === 'floppa') {
+            await message.reply('im better')
+            await message.reply('im smarter')
+            await message.reply('im stronger')
+        }
         if (message.content.toLowerCase() === 'hello') {
             await message.channel.send('hello');
         }
