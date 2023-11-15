@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 
-const badwordsObject = require('badwords/object');
+const badwordsObject = require('badwords/object'); //joinked from github
 
 const client = new Client({
     intents: [
