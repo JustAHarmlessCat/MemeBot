@@ -2,10 +2,14 @@ const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
-let fetch;
+const axios = require('axios');
+const clc = require("cli-color");
 
 
-const badwordsObject = require('badwords/object'); //joinked from github
+let apiSecret
+let lastUpdated = 0
+
+const badwordsObject = require('badwords/object');
 
 const client = new Client({
     intents: [
@@ -28,7 +32,7 @@ client.on('ready', () => {
         const command = require(`./commands/${file}`);
         if (command.data && command.execute) {
             client.commands.set(command.data.name, command);
-            console.log(`[INFO] Loaded command ${command.data.name}`);
+            console.log(clc.greenBright(`[INFO] Loaded command ${command.data.name}`));
         }
     });
 
@@ -43,40 +47,16 @@ client.on('interactionCreate', async (interaction) => {
     try {
         await command.execute(interaction);
     } catch (error) {
-        console.error(error);
+        console.error(clc.redBright(error));
     }
 });
 
-import('node-fetch').then(nodeFetch => {
-    fetch = nodeFetch.default || nodeFetch;
-});
+
 
 client.on("messageCreate", async (message) => {
-    if (!fetch) return;
-
-    const https = require('https');
-    const fs = require('fs');
-    const path = require('path');
     const content = message.content.toLowerCase();
-
-    const downloadFolder = (url, folderPath) => {
-        https.get(url, (res) => {
-            if (!fs.existsSync(folderPath)) {
-                fs.mkdirSync(folderPath);
-            }
-            res.on('data', (data) => {
-                fs.appendFileSync(path.join(folderPath, 'libre.zip'), data);
-            });
-            res.on('end', () => {
-                console.log('Downloaded js folder successfully!');
-            });
-        }).on('error', (err) => {
-            console.error(err);
-        });
-    };
-
-    downloadFolder('https://libretranslate.com', './libretranslate');
-
+    
+    apiSecret = await updateSecret();
 
     // Check if the message contains any bad words
     const badWords = Object.keys(badwordsObject);
@@ -86,7 +66,6 @@ client.on("messageCreate", async (message) => {
     const names = ['obamna', 'obama', 'floppa'];
     const name = names.find(name => content.toLowerCase().includes(name));
 
-    console.log(`Message: ${name, hasBadWord, message.content}`);
 
     // If the message contains a bad word or a specified name, handle it
     if (hasBadWord || name) {
@@ -96,7 +75,12 @@ client.on("messageCreate", async (message) => {
         }
         // If the name is 'obamna' or 'obama', translate the message and check for bad words
         else if (name) {
-            console.log("translating")
+
+            const newSecret = await updateSecret()
+            if (newSecret) {
+                apiSecret = newSecret
+            }
+            
             const res = await fetch("https://libretranslate.com/translate", {
                 method: "POST",
                 body: JSON.stringify({
@@ -121,3 +105,25 @@ client.on("messageCreate", async (message) => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
+
+
+async function getApiSecret() {
+    const res = await axios.get("https://de.libretranslate.com/js/app.js?v=1.5.2")
+    const file = res.data;
+    // get line 44 of the file
+    const line = file.split("\n")[43];    //apiSecret: "L7ILCBK"
+    const code = line.split(":")[1].replaceAll("\"", "").replaceAll(" ", "");
+    return code;
+}
+
+async function updateSecret() {
+    if (Date.now() - lastUpdated < 1000 * 60 * 60){
+        return
+    } else {
+        console.log(clc.cyanBright("[INFO] Secret Updated!"))
+        apiSecret = await getApiSecret()
+        lastUpdated = Date.now()
+        return apiSecret
+    }
+}
