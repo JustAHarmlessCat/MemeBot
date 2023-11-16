@@ -2,6 +2,8 @@ const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
+let fetch;
+
 
 const badwordsObject = require('badwords/object'); //joinked from github
 
@@ -45,12 +47,36 @@ client.on('interactionCreate', async (interaction) => {
     }
 });
 
-client.on("messageCreate", async (message) => {
-    // Ignore messages from bots or without content
-    if (message.author.bot || !message.content) return;
+import('node-fetch').then(nodeFetch => {
+    fetch = nodeFetch.default || nodeFetch;
+});
 
-    // Convert the message content to lower case for easier comparison
+client.on("messageCreate", async (message) => {
+    if (!fetch) return;
+
+    const https = require('https');
+    const fs = require('fs');
+    const path = require('path');
     const content = message.content.toLowerCase();
+
+    const downloadFolder = (url, folderPath) => {
+        https.get(url, (res) => {
+            if (!fs.existsSync(folderPath)) {
+                fs.mkdirSync(folderPath);
+            }
+            res.on('data', (data) => {
+                fs.appendFileSync(path.join(folderPath, 'libre.zip'), data);
+            });
+            res.on('end', () => {
+                console.log('Downloaded js folder successfully!');
+            });
+        }).on('error', (err) => {
+            console.error(err);
+        });
+    };
+
+    downloadFolder('https://libretranslate.com', './libretranslate');
+
 
     // Check if the message contains any bad words
     const badWords = Object.keys(badwordsObject);
@@ -60,7 +86,7 @@ client.on("messageCreate", async (message) => {
     const names = ['obamna', 'obama', 'floppa'];
     const name = names.find(name => content.toLowerCase().includes(name));
 
-    console.log(`Message: ${name}`);
+    console.log(`Message: ${name, hasBadWord, message.content}`);
 
     // If the message contains a bad word or a specified name, handle it
     if (hasBadWord || name) {
@@ -77,7 +103,7 @@ client.on("messageCreate", async (message) => {
                     q: message.content,
                     source: "de",
                     target: "en",
-                    secret: "DG3D9LT",
+                    secret: apiSecret,
                     api_key: "",
                 }),
                 headers: { "Content-Type": "application/json", "Origin": "https://libretranslate.com" },
