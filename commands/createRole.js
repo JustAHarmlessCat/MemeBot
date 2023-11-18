@@ -15,6 +15,9 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(interaction) {
+        // Acknowledge the interaction
+        await interaction.deferReply();
+
         const name = interaction.options.getString('name');
         const color = interaction.options.getString('color');
 
@@ -41,7 +44,10 @@ module.exports = {
             name: role.name,
         });
         saveData(Data);
-        interaction.reply(`Die Rolle ${role} wurde erstellt.`);
+
+        // Send a follow-up message
+        interaction.followUp(`Die Rolle ${role} wurde erstellt.`);
+        return;
     },
 };
 
