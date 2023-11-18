@@ -5,7 +5,6 @@ require('dotenv').config();
 const axios = require('axios');
 const clc = require("cli-color");
 
-
 let apiSecret
 let lastUpdated = 0
 

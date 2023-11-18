@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const convert = require('color-convert');
+const fs = require('fs');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -34,6 +35,20 @@ module.exports = {
             color: discordColor,
             mentionable: mentionable
         });
+        let Data = loadData();
+        Data.push({
+            id: role.id,
+            name: role.name,
+        });
+        saveData(Data);
         interaction.reply(`Die Rolle ${role} wurde erstellt.`);
     },
 };
+
+function loadData() {
+    return JSON.parse(fs.readFileSync('./roles.json'));
+}
+
+function saveData(data) {
+    fs.writeFileSync('./roles.json', JSON.stringify(data));
+}
