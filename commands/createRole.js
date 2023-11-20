@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const convert = require('color-convert');
 const fs = require('fs');
+const { loadData, saveData } = require("../utils.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,6 +23,7 @@ module.exports = {
         const color = interaction.options.getString('color');
 
         // Convert the color string to an RGB array
+        
         const rgbArray = convert.keyword.rgb(color);
 
         // Create a Discord.js ColorResolvable object
@@ -50,11 +52,3 @@ module.exports = {
         return;
     },
 };
-
-function loadData() {
-    return JSON.parse(fs.readFileSync('./roles.json'));
-}
-
-function saveData(data) {
-    fs.writeFileSync('./roles.json', JSON.stringify(data));
-}

@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('clearcustom')
-        .setDescription('Löscht alle Customroles'),
+        .setDescription('Entfert alle Customroles von dir'),
     async execute(interaction = new CommandInteraction()) {
         // Read the contents of the roles.json file
         const roles = JSON.parse(fs.readFileSync('roles.json'));
@@ -21,7 +21,7 @@ module.exports = {
         }
 
         // Respond with a message indicating that the roles have been deleted
-        await interaction.reply('All roles have been deleted.');
+        await interaction.reply('Alle Customroles von dir gelöscht');
         return;
     }
 };
