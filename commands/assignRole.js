@@ -40,7 +40,6 @@ module.exports = {
 
     const roles = JSON.parse(fs.readFileSync("roles.json", "utf-8"));
 
-    if (!interaction.member.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) {
       if (!role) {
         await interaction.reply({
           content: `Diese Rolle ist keine Customrole daher darf sie nicht vergeben werden`,
@@ -48,7 +47,6 @@ module.exports = {
         });
         return;
       }
-    }
 
     await member.roles.add(role);
     await interaction.reply({
