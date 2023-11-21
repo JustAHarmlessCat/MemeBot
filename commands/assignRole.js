@@ -3,7 +3,7 @@ const {
   CommandInteraction,
   GuildMember,
   Role,
-  Permissions,
+  PermissionsBitField,
 } = require("discord.js");
 const fs = require("fs");
 
@@ -27,9 +27,10 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user");
     const role = interaction.options.getRole("role");
+    const roles = JSON.parse(fs.readFileSync("roles.json", "utf-8"));
     const member = interaction.guild.members.cache.get(user.id);
 
-    if (interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+    if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
       await member.roles.add(role);
       await interaction.reply({
         content: `Rolle ${role.name} wurde an ${user.username} vergeben. (Admin)`,
@@ -37,8 +38,6 @@ module.exports = {
       });
       return;
     }
-
-    const roles = JSON.parse(fs.readFileSync("roles.json", "utf-8"));
 
       if (!role) {
         await interaction.reply({
