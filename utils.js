@@ -1,11 +1,34 @@
 const fs = require("fs");
 
-function loadData() {
-  return JSON.parse(fs.readFileSync("./roles.json"));
+function loadData(filepath) {
+  if (!filepath) filepath = "./roles.json";
+  try {
+    return JSON.parse(fs.readFileSync(filepath));
+  } catch (err) {
+    console.error(`Error reading file from disk: ${filepath}`, err);
+    return false;
+  }
 }
 
-function saveData(data) {
-  fs.writeFileSync("./roles.json", JSON.stringify(data));
+function saveData(filepath, data) {
+  if (!filepath) filepath = "./roles.json";
+  try {
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.error(`Error writing file on disk: ${filepath}`, err);
+  }
+}
+
+async function messageCount(user){
+  let data = loadData('./messageCount.json');
+  if(!data || !data.user){
+    data = { user: {} };
+  }
+  if(!data.user[user]){
+    data.user[user] = 0;
+  }
+  data.user[user] += 1;
+  saveData('./messageCount.json', data);
 }
 
 const CSS_COLOR_NAMES = [
@@ -162,5 +185,6 @@ const CSS_COLOR_NAMES = [
 module.exports = {
   loadData,
   saveData,
+  messageCount,
   CSS_COLOR_NAMES,
 };

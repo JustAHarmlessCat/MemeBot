@@ -9,7 +9,7 @@ const path = require("path");
 require("dotenv").config();
 const axios = require("axios");
 const clc = require("cli-color");
-const { CSS_COLOR_NAMES } = require("./utils");
+const { CSS_COLOR_NAMES, messageCount } = require("./utils");
 
 let apiSecret;
 let lastUpdated = 0;
@@ -63,6 +63,8 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 client.on("messageCreate", async (message) => {
+  if (message.author.bot) return;
+  messageCount(message.author.id);
   const content = message.content.toLowerCase();
 
   apiSecret = await updateSecret();
