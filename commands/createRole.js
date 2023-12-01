@@ -3,6 +3,7 @@ const convert = require("color-convert");
 const fs = require("fs");
 const { loadData, saveData } = require("../utils.js");
 const { CSS_COLOR_NAMES } = require("../utils.js");
+const { basename } = require("path");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,6 +35,12 @@ module.exports = {
     await interaction.deferReply();
 
     const name = interaction.options.getString("name");
+
+    if (name.toLowerCase().includes ("steini")) {
+      await interaction.user.send("Nein. Du dummer Bastard.");
+      return;
+    }
+
     const color = interaction.options.getString("color");
 
     const mentionable = interaction.options.getBoolean("mentionable") || false;
