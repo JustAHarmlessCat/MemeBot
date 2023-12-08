@@ -1,6 +1,6 @@
 # MemeBot
 
-This is a Discord bot that can execute certain commands when they are sent in a Discord server.
+This is a JustADiscordBot that I made to send memes and have some other functionality for me and my friends
 
 ## Files
 
