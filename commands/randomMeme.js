@@ -8,17 +8,21 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply();
 
-    const meme = await getMeme();
+    const channelId = interaction.channelId;
+    if (channelId === "1169696989605269685" || channelId === "1170048000073142292") {
+      const meme = await getMeme();
 
-    const embed = new EmbedBuilder()
-
-      .setTitle(meme.title)
-      .setURL(meme.postLink)
-      .setImage(meme.image)
-      .setFooter({
-        text: `👍 ${meme.upvotes} `,
-      });
-    await interaction.editReply({ embeds: [embed] });
+      const embed = new EmbedBuilder()
+        .setTitle(meme.title)
+        .setURL(meme.postLink)
+        .setImage(meme.image)
+        .setFooter({
+          text: `👍 ${meme.upvotes} `,
+        });
+      await interaction.editReply({ embeds: [embed] });
+    } else {
+      await interaction.editReply("Das ist kein Scheiß botspam channel du keck, lern man zu lesen.");
+    }
   },
 };
 
