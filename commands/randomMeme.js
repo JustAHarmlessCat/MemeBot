@@ -21,7 +21,7 @@ module.exports = {
         });
       await interaction.editReply({ embeds: [embed] });
     } else {
-      await interaction.editReply("Das ist kein Scheiß botspam channel du keck, lern man zu lesen.");
+      await interaction.editReply("Das ist kein Scheiß botspam channel du keck, lern mal zu lesen.");
     }
   },
 };
