@@ -64,7 +64,7 @@ client.on("interactionCreate", async (interaction) => {
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
-  messageCount(message.author.id);
+  messageCount(message);
   const content = message.content.toLowerCase();
 
   apiSecret = await updateSecret();

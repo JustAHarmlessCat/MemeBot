@@ -19,16 +19,31 @@ function saveData(filepath, data) {
   }
 }
 
-async function messageCount(user){
-  let data = loadData('./messageCount.json');
-  if(!data || !data.user){
-    data = { user: {} };
+async function messageCount(message) {
+  let data = loadData("./messageCount.json");
+  if (!data[message.author.id]){
+
+    const role = await message.guild.roles.create({
+      data: {
+        color: "#FF0000",
+      },
+    });
+
+    await role.setName(`${message.author.displayName}'s Social Credit Score: 1`);
+    await message.member.roles.add(role);
+
+    data[message.author.id] = {
+      count: 1,
+      roleId: role.id,
+    }
+  } else {
+    data[message.author.id].count++;
+    const role = message.guild.roles.cache.get(data[message.author.id].roleId)
+    role.setName(`${message.author.displayName}'s Social Credit Score: ${data[message.author.id].count}`);
   }
-  if(!data.user[user]){
-    data.user[user] = 0;
-  }
-  data.user[user] += 1;
-  saveData('./messageCount.json', data);
+
+   saveData("./messageCount.json", data);
+
 }
 
 const CSS_COLOR_NAMES = [
