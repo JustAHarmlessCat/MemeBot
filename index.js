@@ -69,6 +69,12 @@ client.on("messageCreate", async (message) => {
 
   apiSecret = await updateSecret();
 
+  const roleId = "1161302831962275962";
+  if (message.member.roles.cache.has(roleId)) {
+    message.react("🐒");
+  }
+
+
   // Check if the message contains any bad words
   const badWords = Object.keys(badwordsObject);
   const hasBadWord = badWords.some((word) => content.includes(word));
