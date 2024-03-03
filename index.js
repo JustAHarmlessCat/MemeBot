@@ -76,7 +76,7 @@ client.on("messageCreate", async (message) => {
   
   if (message.content.toLowerCase().includes("instagram.com")) {
     message.delete();
-    message.reply("imagen being insta suechtig");
+    message.reply(`imagen being insta suechtig <@${message.author.id}>`);
   }
 
 
