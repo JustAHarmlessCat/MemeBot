@@ -73,6 +73,11 @@ client.on("messageCreate", async (message) => {
   if (message.member.roles.cache.has(roleId)) {
     message.react("🐒");
   }
+  
+  if (message.content.toLowerCase().includes("instagram.com")) {
+    message.delete();
+    message.reply("imagen being insta suechtig");
+  }
 
 
   // Check if the message contains any bad words
