@@ -11,6 +11,12 @@ const axios = require("axios");
 const clc = require("cli-color");
 const { CSS_COLOR_NAMES, messageCount } = require("./utils");
 
+let gameExists = false;
+let gameBoard = [0, 0, 0,
+                 0, 0, 0,
+                 0, 0, 0];
+
+
 let apiSecret;
 let lastUpdated = 0;
 
@@ -185,3 +191,9 @@ client.on("interactionCreate", async (interaction) => {
     })
   );
 });
+
+
+module.exports = {
+  gameExists,
+  gameBoard
+};

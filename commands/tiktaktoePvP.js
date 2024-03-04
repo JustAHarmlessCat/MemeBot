@@ -1,0 +1,22 @@
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
+const { gameExists, gameBoard } = require("..");
+
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName('tiktaktoepvp')
+    .setDescription("Play a game of Tik Tak Toe with a friend!"),
+  async execute(interaction = new CommandInteraction()) {
+    const embed = new EmbedBuilder()
+      .setTitle('Tik Tak Toe PvP')
+      .setDescription(JSON.stringify(gameBoard))
+      .addFields['1️⃣ 2️⃣ 3️⃣', '⬛⬛⬛']
+      .addFields['4️⃣ 5️⃣ 6️⃣', '⬛⬛⬛']
+      .addFields['7️⃣ 8️⃣ 9️⃣', '⬛⬛⬛'];
+      if(gameExists) {
+    await interaction.editReply({ embeds: [embed] });
+    return;
+      }
+      await interaction.reply({ embeds: [embed] });
+    return;
+  },
+};
