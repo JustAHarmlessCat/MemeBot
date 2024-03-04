@@ -73,6 +73,10 @@ client.on("messageCreate", async (message) => {
   if (message.member.roles.cache.has(roleId)) {
     message.react("🐒");
   }
+
+  if (message.author.id === "825026353258299393") {
+    message.react("🍅")
+  }
   
   if (message.content.toLowerCase().includes("instagram.com")) {
     message.reply(`imagen being insta suechtig <@${message.author.id}>`);
