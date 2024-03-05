@@ -89,6 +89,10 @@ client.on("messageCreate", async (message) => {
     message.delete();
   }
 
+  if (message.content.toLowerCase().includes(".com") && author.id === "798823654343442443") {
+    message.delete();
+  }
+
 
   // Check if the message contains any bad words
   const badWords = Object.keys(badwordsObject);

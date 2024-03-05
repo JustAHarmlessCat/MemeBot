@@ -9,9 +9,6 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle('Tik Tak Toe PvP')
       .setDescription(JSON.stringify(gameBoard))
-      .addFields['1️⃣ 2️⃣ 3️⃣', '⬛⬛⬛']
-      .addFields['4️⃣ 5️⃣ 6️⃣', '⬛⬛⬛']
-      .addFields['7️⃣ 8️⃣ 9️⃣', '⬛⬛⬛'];
       if(gameExists) {
     await interaction.editReply({ embeds: [embed] });
     return;
