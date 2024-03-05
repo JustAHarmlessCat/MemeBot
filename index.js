@@ -89,7 +89,7 @@ client.on("messageCreate", async (message) => {
     message.delete();
   }
 
-  if (message.content.toLowerCase().includes(".com") && message.author.id === "798823654343442443") {
+  if (message.content.toLowerCase().includes("http") && message.author.id === "798823654343442443") {
     message.reply('No links for you');
     message.delete();
   }
