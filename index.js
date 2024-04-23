@@ -73,7 +73,7 @@ client.on("messageCreate", async (message) => {
   messageCount(message);
   const content = message.content.toLowerCase();
 
-  if ((content.includes("holstein")) OR (content.includes("holstein kiel")) OR (content.includes("kiel"))) {
+  if (content.includes("holstein") || content.includes("holstein kiel") || content.includes("kiel")) {
     message.react("/:HolsteinKiel:");
   }
 
