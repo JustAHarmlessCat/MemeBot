@@ -74,7 +74,7 @@ client.on("messageCreate", async (message) => {
   const content = message.content.toLowerCase();
 
   if (content.includes("holstein") || content.includes("holstein kiel") || content.includes("kiel")) {
-    message.react("/:HolsteinKiel:");
+    message.react("<:HolsteinKiel:1218309138090688653>");
   }
 
   apiSecret = await updateSecret();
