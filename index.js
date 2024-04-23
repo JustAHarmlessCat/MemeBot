@@ -73,6 +73,10 @@ client.on("messageCreate", async (message) => {
   messageCount(message);
   const content = message.content.toLowerCase();
 
+  if ((content.includes("holstein")) OR (content.includes("holstein kiel")) OR (content.includes("kiel"))) {
+    message.react("/:HolsteinKiel:");
+  }
+
   apiSecret = await updateSecret();
 
   const roleId = "1161302831962275962";
