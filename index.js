@@ -12,10 +12,7 @@ const clc = require("cli-color");
 const { CSS_COLOR_NAMES, messageCount } = require("./utils");
 
 let gameExists = false;
-let gameBoard = [0, 0, 0,
-                 0, 0, 0,
-                 0, 0, 0];
-
+let gameBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 let apiSecret;
 let lastUpdated = 0;
@@ -46,13 +43,13 @@ client.on("ready", () => {
     if (command.data && command.execute) {
       client.commands.set(command.data.name, command);
       console.log(
-        clc.greenBright(`[INFO] Loaded command ${command.data.name}`)
+        clc.greenBright(`[INFO] Loaded command ${command.data.name}`),
       );
     }
   });
 
   client.application.commands.set(
-    client.commands.map((command) => command.data)
+    client.commands.map((command) => command.data),
   );
   console.log(`[INFO] Registered ${client.commands.size} commands`);
 });
@@ -73,7 +70,11 @@ client.on("messageCreate", async (message) => {
   messageCount(message);
   const content = message.content.toLowerCase();
 
-  if (content.includes("holstein") || content.includes("holstein kiel") || content.includes("kiel")) {
+  if (
+    content.includes("holstein") ||
+    content.includes("holstein kiel") ||
+    content.includes("kiel")
+  ) {
     message.react("<:HolsteinKiel:1218309138090688653>");
   }
 
@@ -85,19 +86,13 @@ client.on("messageCreate", async (message) => {
   }
 
   if (message.author.id === "825026353258299393") {
-    message.react("🍅")
+    message.react("🍅");
   }
-  
+
   if (message.content.toLowerCase().includes("instagram.com")) {
     message.reply(`imagen being insta suechtig <@${message.author.id}>`);
     message.delete();
   }
-
-  if (message.content.toLowerCase().includes("http") && message.author.id === "798823654343442443") {
-    message.reply('No links for you');
-    message.delete();
-  }
-
 
   // Check if the message contains any bad words
   const badWords = Object.keys(badwordsObject);
@@ -112,7 +107,7 @@ client.on("messageCreate", async (message) => {
     // If the name is 'floppa', reply with these messages
     if (name === "floppa") {
       ["im better", "im smarter", "im stronger"].forEach((m) =>
-        message.reply(m)
+        message.reply(m),
       );
     }
     // If the name is 'obamna' or 'obama', translate the message and check for bad words
@@ -157,7 +152,7 @@ client.login(process.env.DISCORD_TOKEN);
 
 async function getApiSecret() {
   const res = await axios.get(
-    "https://de.libretranslate.com/js/app.js?v=1.5.2"
+    "https://de.libretranslate.com/js/app.js?v=1.5.2",
   );
   const file = res.data;
   // get line 44 of the file
@@ -197,12 +192,11 @@ client.on("interactionCreate", async (interaction) => {
         name: color.name,
         value: color.color,
       };
-    })
+    }),
   );
 });
 
-
 module.exports = {
   gameExists,
-  gameBoard
+  gameBoard,
 };
