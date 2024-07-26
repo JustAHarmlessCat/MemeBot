@@ -89,11 +89,6 @@ client.on("messageCreate", async (message) => {
     message.react("🍅");
   }
 
-  if (message.content.toLowerCase().includes("instagram.com")) {
-    message.reply(`imagen being insta suechtig <@${message.author.id}>`);
-    message.delete();
-  }
-
   // Check if the message contains any bad words
   const badWords = Object.keys(badwordsObject);
   const hasBadWord = badWords.some((word) => content.includes(word));
